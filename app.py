@@ -367,9 +367,9 @@ elif page == " Varyant Tahmin":
         st.success(f" Dosya yüklendi: {df.shape[0]} varyant, {df.shape[1]} kolon")
 
         with st.expander("📋 Yüklenen Veri Önizleme", expanded=False):
-            st.dataframe(df.head(10), width="stretch")
+            st.dataframe(df.head(10), use_container_width=True)
 
-        if st.button(" Tahmin Üret", type="primary", width="stretch"):
+        if st.button(" Tahmin Üret", type="primary", use_container_width=True):
             with st.spinner("🔄 Tahminler hesaplanıyor..."):
                 probs, preds, threshold, variant_ids = predict_batch(
                     pipeline, freq_maps, df)
@@ -416,7 +416,7 @@ elif page == " Varyant Tahmin":
                     plot_bgcolor='rgba(0,0,0,0)',
                     height=400
                 )
-                st.plotly_chart(fig, width="stretch")
+                st.plotly_chart(fig, use_container_width=True)
 
             with col2:
                 fig = go.Figure(data=[go.Pie(
@@ -433,7 +433,7 @@ elif page == " Varyant Tahmin":
                     plot_bgcolor='rgba(0,0,0,0)',
                     height=400
                 )
-                st.plotly_chart(fig, width="stretch")
+                st.plotly_chart(fig, use_container_width=True)
 
             # Sonuç tablosu
             sonuc_df = pd.DataFrame({
@@ -443,7 +443,7 @@ elif page == " Varyant Tahmin":
             })
 
             st.markdown("### 📋 Tahmin Sonuçları")
-            st.dataframe(sonuc_df, width="stretch", height=400)
+            st.dataframe(sonuc_df, use_container_width=True, height=400)
 
             # CSV indirme
             csv_data = sonuc_df.to_csv(index=False)
@@ -452,7 +452,7 @@ elif page == " Varyant Tahmin":
                 csv_data,
                 "kgm_med39_tahminler.csv",
                 "text/csv",
-                width="stretch"
+                use_container_width=True
             )
 
 
@@ -548,7 +548,7 @@ elif page == " Model Performans":
                 plot_bgcolor='rgba(0,0,0,0)',
                 height=450, showlegend=False
             )
-            st.plotly_chart(fig, width="stretch")
+            st.plotly_chart(fig, use_container_width=True)
 
         with tab2:
             st.code(report, language='text')
@@ -567,7 +567,7 @@ elif page == " Model Performans":
         if fpath.exists():
             with col:
                 st.markdown(f"**{title}**")
-                st.image(str(fpath), width="stretch")
+                st.image(str(fpath), use_container_width=True)
 
 
 # ══════════════════════════════════════════════════════════════════
@@ -634,7 +634,7 @@ elif page == " Panel Analizi":
             plot_bgcolor='rgba(0,0,0,0)',
             height=450, yaxis_range=[0, 1.1]
         )
-        st.plotly_chart(fig, width="stretch")
+        st.plotly_chart(fig, use_container_width=True)
 
         st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
@@ -669,7 +669,7 @@ elif page == " Panel Analizi":
                     paper_bgcolor='rgba(0,0,0,0)',
                     height=350
                 )
-                st.plotly_chart(fig, width="stretch")
+                st.plotly_chart(fig, use_container_width=True)
 
 
 # ══════════════════════════════════════════════════════════════════
@@ -719,7 +719,7 @@ elif page == " Klinik Stres Testi":
         paper_bgcolor='rgba(0,0,0,0)',
         height=400
     )
-    st.plotly_chart(fig, width="stretch")
+    st.plotly_chart(fig, use_container_width=True)
 
     st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
@@ -739,7 +739,7 @@ elif page == " Klinik Stres Testi":
             'Benign %': f"{100-p_ratio:.1f}%",
         })
 
-    st.dataframe(pd.DataFrame(panel_data), width="stretch",
+    st.dataframe(pd.DataFrame(panel_data), use_container_width=True,
                  hide_index=True)
 
     # Stres testi raporu
@@ -826,7 +826,7 @@ elif page == " YZ Açıklanabilirliği":
         fpath = SONUC_DIR / fname
         if fpath.exists():
             with st.expander(f" {title}", expanded=False):
-                st.image(str(fpath), width="stretch")
+                st.image(str(fpath), use_container_width=True)
 
     st.markdown("""
     <div class="glass-card" style="text-align:center; margin-top:40px;">
