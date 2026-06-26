@@ -90,24 +90,24 @@ Bu proje, **missense varyantların** patojenite sınıflandırması (Patojenik/B
 
 ```
                     ┌─────────────────────────┐
-                    │     HAM VERİ (CSV)       │
-                    │    4 Panel × 353 Kolon   │
+                    │     HAM VERİ (CSV)      │
+                    │    4 Panel × 353 Kolon  │
                     └───────────┬─────────────┘
                                 │
                     ┌───────────▼─────────────┐
-                    │  FEATURE ENGINEERING     │
-                    │  (src/feature_eng...)    │
-                    │  • AL İstatistikleri     │
+                    │  FEATURE ENGINEERING    │
+                    │  (src/feature_eng...)   │
+                    │  • AL İstatistikleri    │
                     │  • EK Korunmuşluk       │
                     │  • AA Biyokimya         │
-                    │  • Etkileşim Terimleri   │
-                    │  • Eksik Veri Pattern    │
-                    │  → 499+ özellik          │
+                    │  • Etkileşim Terimleri  │
+                    │  • Eksik Veri Pattern   │
+                    │  → 499+ özellik         │
                     └───────────┬─────────────┘
                                 │
                     ┌───────────▼─────────────┐
                     │  OPTUNA OPTİMİZASYON    │
-                    │  Bayesian TPE Sampler    │
+                    │  Bayesian TPE Sampler   │
                     │  60 trial × 4 model     │
                     └───────────┬─────────────┘
                                 │
@@ -128,14 +128,14 @@ Bu proje, **missense varyantların** patojenite sınıflandırması (Patojenik/B
                  ┌──────────▼──────────┐
                  │  STACKING           │
                  │  META-LEARNER       │
-                 │  (LogisticRegression)│
+                 │ (LogisticRegression)│
                  │  (Level 2)          │
                  └──────────┬──────────┘
                             │
                  ┌──────────▼──────────┐
                  │  F1+MCC KOMPOZİT    │
                  │  THRESHOLD OPT.     │
-                 │  (Panel-Specific)    │
+                 │  (Panel-Specific)   │
                  └──────────┬──────────┘
                             │
                  ┌──────────▼──────────┐
