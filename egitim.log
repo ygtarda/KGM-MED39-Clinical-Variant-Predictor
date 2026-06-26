@@ -1,0 +1,159 @@
+
+============================================================
+  KGM_MED39 v4.0 - Klinik Genomik Varyant Tahmin Sistemi
+  TEKNOFEST 2026 - Saglikta Yapay Zeka Yarismasi
+  Championship Edition: Stacking + Optuna + Stres Testi
+============================================================
+
+============================================================
+ 🔷  ADIM 1: Veri Yukleme
+============================================================
+ ℹ️  Veri yuklendi: 2931 satir, 353 kolon
+ ℹ️  Label degerleri: [np.int64(0), np.int64(1)]
+ ✅  veri_yukle tamamlandi (0.2s)
+
+============================================================
+ 🔷  ADIM 2: Gelismis Feature Engineering
+============================================================
+ ✅  FE sonrasi kolon sayisi: 548
+
+============================================================
+ 🔷  ADIM 3: Veri Hazirlama
+============================================================
+ ℹ️  22 kolon eksik veri nedeniyle silindi (esik: %70)
+ ℹ️  Sinif dagilimi -> Benign: 782 (26.7%) | Pathogenic: 2149 (73.3%)
+ ✅  veri_hazirla tamamlandi (0.0s)
+ ✅  Son veri boyutu: (2931, 525)
+ ℹ️  scale_pos_weight: 0.3639
+ ⚠️  [SARTNAME] Test dagilimi: 500P + 3000B (Patojenik: %14.3)
+
+============================================================
+ 🔷  ADIM 4: Optuna Hiperparametre Optimizasyonu (Tum Modeller)
+============================================================
+ 🔷  XGBoost hiperparametre optimizasyonu basliyor...
+ ✅  XGBoost en iyi skor: 0.8416
+ 🔷  LightGBM hiperparametre optimizasyonu basliyor...
+ ✅  LightGBM en iyi skor: 0.8434
+ 🔷  CatBoost hiperparametre optimizasyonu basliyor...
+ ✅  CatBoost en iyi skor: 0.8428
+ 🔷  ExtraTrees hiperparametre optimizasyonu basliyor...
+ ✅  ExtraTrees en iyi skor: 0.8261
+ ✅  optuna_optimize tamamlandi (2114.5s)
+
+============================================================
+ 🔷  ADIM 5: Stacking Ensemble Model Olusturma
+============================================================
+ ✅  Aktif modeller: ['xgb', 'et', 'lgbm', 'catboost']
+
+============================================================
+ 🔷  ADIM 6: Stacking Capraz Dogrulama + Klinik Stres Testi
+============================================================
+ ℹ️  Fold 1/10 -> F1: 0.9000 | MCC: 0.5632 | PR-AUC: 0.9342 (th=0.28) | Stres F1: 0.4985
+ ℹ️  Fold 5/10 -> F1: 0.8901 | MCC: 0.5312 | PR-AUC: 0.9176 (th=0.41) | Stres F1: 0.4906
+ ℹ️  Fold 10/10 -> F1: 0.8865 | MCC: 0.5806 | PR-AUC: 0.9244 (th=0.48) | Stres F1: 0.5643
+ 🔷  Stacking Meta-Learner egitiliyor...
+ ⭐  Meta-Learner OOF -> F1: 0.8919 | MCC: 0.5367 (th=0.23)
+ ✅  capraz_dogrulama_stacking tamamlandi (413.6s)
+
+--------------------------------------------------
+ ✅  Ortalama F1:        0.8941 +/- 0.0074
+ ✅  Ortalama PR-AUC:    0.9276 +/- 0.0075
+ ✅  Ortalama MCC:       0.5552 +/- 0.0307
+ ✅  Ortalama Precision: 0.8497
+ ✅  Ortalama Recall:    0.9448
+ ✅  Global Threshold:   0.16
+ ⭐  Meta-Learner F1:    0.8919
+ ⭐  Meta-Learner MCC:   0.5367
+ ⚠️  Stres Testi Ort F1: 0.5219
+ ⚠️  Stres Testi Ort MCC:0.4429
+--------------------------------------------------
+
+============================================================
+ 🔷  ADIM 7: Final Model Egitimi (Stacking Pipeline)
+============================================================
+ ✅  Pipeline kaydedildi: /Users/ardayigit/Downloads/KGM_MED39_Variant_Predictor/sonuclar/kgm_med39_pipeline.joblib
+ ℹ️  Model agirliklari: {'xgb': '0.253', 'et': '0.244', 'lgbm': '0.252', 'catboost': '0.251'}
+ ✅  final_model_egit tamamlandi (166.5s)
+
+============================================================
+ 🔷  ADIM 8: Panel Testleri (Panel-Specific Threshold)
+============================================================
+
+============================================================
+ 🔷  PANEL TEST SONUCLARI
+============================================================
+
+[KANSER Paneli] (Toplam: 388 varyant)
+  Threshold:  0.64
+  F1-Skoru:   0.9284
+  PR-AUC:     0.9694
+  MCC:        0.7609
+  Precision:  0.9134
+  Recall:     0.9440
+  Karisiklik Matrisi -> TN: 96 | FP: 24 | FN: 15 | TP: 253
+  [Bagimsiz Test] (142/388, Overlap cikarildi: 246)
+    F1: 0.8037 | MCC: 0.7127 | PR-AUC: 0.8619
+  [Klinik Stres Testi Bilgisi] Test dagilimi: 100P + 500B (Patojenik orani: %16.7)
+
+
+[PAH Paneli] (Toplam: 372 varyant)
+  Threshold:  0.33
+  F1-Skoru:   0.9387
+  PR-AUC:     0.9493
+  MCC:        0.5563
+  Precision:  0.8947
+  Recall:     0.9871
+  Karisiklik Matrisi -> TN: 26 | FP: 36 | FN: 4 | TP: 306
+  [Bagimsiz Test] (117/372, Overlap cikarildi: 255)
+    F1: 0.8514 | MCC: 0.6149 | PR-AUC: 0.8067
+  [Klinik Stres Testi Bilgisi] Test dagilimi: 100P + 250B (Patojenik orani: %28.6)
+
+
+[CFTR Paneli] (Toplam: 111 varyant)
+  Threshold:  0.36
+  F1-Skoru:   0.9508
+  PR-AUC:     0.9884
+  MCC:        0.7236
+  Precision:  0.9355
+  Recall:     0.9667
+  Karisiklik Matrisi -> TN: 15 | FP: 6 | FN: 3 | TP: 87
+  [Bagimsiz Test] (34/111, Overlap cikarildi: 77)
+    F1: 0.9032 | MCC: 0.8367 | PR-AUC: 0.9628
+  [Klinik Stres Testi Bilgisi] Test dagilimi: 20P + 100B (Patojenik orani: %16.7)
+
+ ✅  Panel threshold'lari kaydedildi: {'KANSER': np.float64(0.6350000000000005), 'PAH': np.float64(0.3300000000000002), 'CFTR': np.float64(0.3550000000000002)}
+ ✅  panel_testleri tamamlandi (1.4s)
+
+============================================================
+ 🔷  ADIM 9: Raporlama ve Gorsellestirme
+============================================================
+ ✅  Fold karsilastirma grafigi kaydedildi
+ ✅  PR egrisi kaydedildi
+ ✅  Karisiklik matrisi kaydedildi
+ 🔷  SHAP analizi basliyor...
+ ℹ️  SHAP: 'xgb' (agirlik: 0.253)
+ ✅  SHAP summary plot kaydedildi
+ ✅  SHAP feature importance kaydedildi
+ ✅  SHAP dependence plots kaydedildi
+ ✅  shap_analizi tamamlandi (7.8s)
+
+============================================================
+  ISLEM TAMAMLANDI
+============================================================
+ ✅  Toplam sure: 2705.7 saniye
+ ✅  Sonuclar: /Users/ardayigit/Downloads/KGM_MED39_Variant_Predictor/sonuclar
+
+Olusturulan dosyalar:
+   - fold_karsilastirma.png (182.2 KB)
+   - freq_maps.joblib (2.1 KB)
+   - karisiklik_matrisi.png (104.2 KB)
+   - kgm_med39_pipeline.joblib (14227.4 KB)
+   - model_kolonlari.joblib (6.4 KB)
+   - precision_recall_egrisi.png (106.0 KB)
+   - shap_aciklanabilirlik_grafigi.png (3731.9 KB)
+   - shap_dependence_plots.png (1364.8 KB)
+   - shap_feature_importance.png (235.7 KB)
+   - test_raporu.txt (4.0 KB)
+   - veri_imputer.joblib (10.8 KB)
+   - veri_scaler.joblib (8.7 KB)
+
