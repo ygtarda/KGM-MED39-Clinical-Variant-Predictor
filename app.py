@@ -237,7 +237,7 @@ with st.sidebar:
     page = st.radio(
         "Sayfa Seçin",
         [" Ana Sayfa", " Varyant Tahmin", " Model Performans",
-         " Panel Analizi", " Klinik Stres Testi", " Hakkında"],
+         " Panel Analizi", " Klinik Stres Testi", " YZ Açıklanabilirliği", " Hakkında"],
         label_visibility="collapsed"
     )
 
@@ -783,13 +783,10 @@ elif page == " Hakkında":
                 <tr><td><strong>Bölüm:</strong></td><td>Yazılım Mühendisliği</td></tr>
             </table>
             <br>
-            <p><strong>Takım Üyeleri:</strong></p>
-            <ul>
-                <li>Enes Dolgun</li>
-                <li>Enes Turan</li>
-                <li>Arda Yiğit</li>
-                <li>Bekir Berk Kahveci</li>
-                <li>Mehmet Akif Gök</li>
+            <div class="glass-card">
+            <h3 style="color:#00d4ff;"> Ekibimiz</h3>
+            <ul style="color:#c0c0e0;">
+                <li><strong>Proje Lideri & Geliştirici:</strong> Arda Yiğit</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
@@ -811,15 +808,18 @@ elif page == " Hakkında":
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
-
-    # SHAP grafikleri
-    st.markdown("###  SHAP Açıklanabilirlik Grafikleri")
+# ══════════════════════════════════════════════════════════════════
+# SHAP TAB
+# ══════════════════════════════════════════════════════════════════
+elif page == " YZ Açıklanabilirliği":
+    st.markdown('<div class="hero-title" style="font-size:2em;"> Yapay Zeka Açıklanabilirliği (SHAP)</div>',
+                unsafe_allow_html=True)
+    st.markdown('<div class="subtitle">Modelin kararlarını hangi genetik özelliklere göre aldığını gösteren şeffaflık analizi.</div>', unsafe_allow_html=True)
 
     shap_files = {
-        'SHAP Özellik Önemi': 'shap_feature_importance.png',
-        'SHAP Açıklanabilirlik': 'shap_aciklanabilirlik_grafigi.png',
-        'SHAP Dependence': 'shap_dependence_plots.png',
+        'SHAP Özellik Önemi (Feature Importance)': 'shap_feature_importance.png',
+        'SHAP Karar Dağılımı (Summary Plot)': 'shap_aciklanabilirlik_grafigi.png',
+        'SHAP Bağımlılık Etkileşimleri (Dependence)': 'shap_dependence_plots.png',
     }
 
     for title, fname in shap_files.items():
