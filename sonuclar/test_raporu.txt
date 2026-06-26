@@ -1,0 +1,110 @@
+KGM_MED39 - KLINIK YAPAY ZEKA TEST RAPORU (v3.0)
+============================================================
+Tarih: 2026-06-19 22:20:31
+
+--- OPTIMUM HIPERPARAMETRELER ---
+
+[XGB]
+  n_estimators: 290
+  learning_rate: 0.04526825020173179
+  max_depth: 5
+  min_child_weight: 1
+  subsample: 0.7631317828357674
+  colsample_bytree: 0.6422276838868328
+  reg_alpha: 2.9557286014056747
+  reg_lambda: 0.005483313226637724
+  gamma: 0.003344023851805759
+
+[LGBM]
+  n_estimators: 560
+  learning_rate: 0.01532174840502342
+  max_depth: 10
+  num_leaves: 89
+  min_child_samples: 7
+  subsample: 0.7259947833556168
+  colsample_bytree: 0.618943804078915
+  reg_alpha: 0.9859465364456014
+  reg_lambda: 1.0896213572034796
+
+--- ANA MODEL (MASTER) ENSEMBLE SONUCLARI ---
+--------------------------------------------------
+Aktif Modeller: xgb, et, lgbm, catboost
+CV: 5-Fold x 2-Repeat = 10 Fold
+
+Ortalama F1:        0.8919 +/- 0.0081
+Ortalama PR-AUC:    0.9283 +/- 0.0087
+Ortalama MCC:       0.5305 +/- 0.0391
+Ortalama Precision: 0.8364
+Ortalama Recall:    0.9556
+Global Threshold:   0.32
+--------------------------------------------------
+
+Fold Detaylari:
+  Fold  1: F1=0.8957 | PR-AUC=0.9333 | MCC=0.5404 | Thresh=0.29
+  Fold  2: F1=0.8967 | PR-AUC=0.9356 | MCC=0.5595 | Thresh=0.39
+  Fold  3: F1=0.8867 | PR-AUC=0.9264 | MCC=0.5148 | Thresh=0.38
+  Fold  4: F1=0.8925 | PR-AUC=0.9343 | MCC=0.5388 | Thresh=0.35
+  Fold  5: F1=0.8829 | PR-AUC=0.9108 | MCC=0.4783 | Thresh=0.34
+  Fold  6: F1=0.9077 | PR-AUC=0.9274 | MCC=0.6119 | Thresh=0.37
+  Fold  7: F1=0.8939 | PR-AUC=0.9354 | MCC=0.5361 | Thresh=0.33
+  Fold  8: F1=0.8762 | PR-AUC=0.9135 | MCC=0.4624 | Thresh=0.39
+  Fold  9: F1=0.8920 | PR-AUC=0.9366 | MCC=0.5322 | Thresh=0.37
+  Fold 10: F1=0.8941 | PR-AUC=0.9297 | MCC=0.5311 | Thresh=0.27
+
+--- MODEL AGIRLIKLARI ---
+  xgb: 0.2510
+  et: 0.2468
+  lgbm: 0.2510
+  catboost: 0.2512
+
+
+--- PANEL TEST SONUCLARI ---
+
+[KANSER Paneli] (Toplam: 388 varyant)
+  Threshold:  0.60
+  F1-Skoru:   0.9245
+  PR-AUC:     0.9691
+  MCC:        0.7493
+  Precision:  0.9127
+  Recall:     0.9366
+  Karisiklik Matrisi -> TN: 96 | FP: 24 | FN: 17 | TP: 251
+  [Bagimsiz Test] (142/388, Overlap cikarildi: 246)
+    F1: 0.8000 | MCC: 0.7043 | PR-AUC: 0.8758
+  [Klinik Stres Testi Bilgisi] Test dagilimi: 100P + 500B (Patojenik orani: %16.7)
+
+[PAH Paneli] (Toplam: 372 varyant)
+  Threshold:  0.31
+  F1-Skoru:   0.9317
+  PR-AUC:     0.9461
+  MCC:        0.4842
+  Precision:  0.8797
+  Recall:     0.9903
+  Karisiklik Matrisi -> TN: 20 | FP: 42 | FN: 3 | TP: 307
+  [Bagimsiz Test] (117/372, Overlap cikarildi: 255)
+    F1: 0.8414 | MCC: 0.5934 | PR-AUC: 0.7959
+  [Klinik Stres Testi Bilgisi] Test dagilimi: 100P + 250B (Patojenik orani: %28.6)
+
+[CFTR Paneli] (Toplam: 111 varyant)
+  Threshold:  0.37
+  F1-Skoru:   0.9613
+  PR-AUC:     0.9895
+  MCC:        0.7910
+  Precision:  0.9560
+  Recall:     0.9667
+  Karisiklik Matrisi -> TN: 17 | FP: 4 | FN: 3 | TP: 87
+  [Bagimsiz Test] (34/111, Overlap cikarildi: 77)
+    F1: 0.9189 | MCC: 0.8367 | PR-AUC: 0.9721
+  [Klinik Stres Testi Bilgisi] Test dagilimi: 20P + 100B (Patojenik orani: %16.7)
+
+--- KLINIK STRES TESTI BILGISI ---
+(Sartname Sayfa 8'den alinan test veri dagilimi)
+  MASTER: 500P + 3000B (Patojenik: %14.3)
+  KANSER: 100P + 500B (Patojenik: %16.7)
+  PAH: 100P + 250B (Patojenik: %28.6)
+  CFTR: 20P + 100B (Patojenik: %16.7)
+
+============================================================
+Toplam Calisma Suresi: 1017.1 saniye
+Feature Engineering: 499 ozellik
+Ensemble: xgb, et, lgbm, catboost
+============================================================
